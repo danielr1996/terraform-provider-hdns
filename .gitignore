@@ -1,0 +1,6 @@
+.idea/
+.terraform
+dist
+.terraform.lock.hcl
+terraform.tf
+Taskfile.yml
