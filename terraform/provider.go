@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+// Provider defines the terraform provider
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
@@ -20,7 +21,7 @@ func Provider() *schema.Provider {
 			},
 		},
 		ConfigureContextFunc: providerConfigure,
-		ResourcesMap:   map[string]*schema.Resource{
+		ResourcesMap: map[string]*schema.Resource{
 			"hdns_record": record.Resource(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
@@ -33,7 +34,7 @@ func Provider() *schema.Provider {
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 	token := d.Get("token").(string)
 	var diags diag.Diagnostics
-	if token == ""{
+	if token == "" {
 		return nil, diag.FromErr(errors.New("token must not be empty"))
 	}
 	return client.New().WithToken(token), diags

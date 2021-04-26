@@ -1,6 +1,5 @@
 package record
 
-
 import (
 	"context"
 	"github.com/danielr1996/hdns-go/client"
@@ -8,12 +7,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+// Resource defines the terraform resource for a record
 func Resource() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: Create,
-		ReadContext:   Read,
-		UpdateContext: Update,
-		DeleteContext: Delete,
+		CreateContext: create,
+		ReadContext:   read,
+		UpdateContext: update,
+		DeleteContext: delete,
 		Schema: map[string]*schema.Schema{
 			"type": {
 				Type:     schema.TypeString,
@@ -38,27 +38,27 @@ func Resource() *schema.Resource {
 	}
 }
 
-func Create(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func create(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := m.(*client.Client)
 	recordType := d.Get("type").(string)
 	value := d.Get("value").(string)
 	name := d.Get("name").(string)
 	zoneId := d.Get("zone_id").(string)
-	record, err := c.Record.Create(name, recordType,value,zoneId)
+	record, err := c.Record.Create(name, recordType, value, zoneId)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 	d.SetId(record.Id)
-	Read(ctx, d, m)
+	read(ctx, d, m)
 	return diags
 }
 
-func Read(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func read(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := m.(*client.Client)
 	record, err := c.Record.GetById(d.Id())
-	if err != nil{
+	if err != nil {
 		return diag.FromErr(err)
 	}
 	if err := d.Set("type", record.Type); err != nil {
@@ -76,9 +76,9 @@ func Read(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagn
 	return diags
 }
 
-func Update(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func update(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.Client)
-	if d.HasChanges("type","name","value","zone_id"){
+	if d.HasChanges("type", "name", "value", "zone_id") {
 		recordType := d.Get("type").(string)
 		value := d.Get("value").(string)
 		name := d.Get("name").(string)
@@ -89,10 +89,10 @@ func Update(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Dia
 		}
 
 	}
-	return Read(ctx, d, m)
+	return read(ctx, d, m)
 }
 
-func Delete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func delete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	c := m.(*client.Client)
 	err := c.Record.Delete(d.Id())

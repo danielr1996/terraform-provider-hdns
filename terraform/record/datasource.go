@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+// DataSource defines the terraform datasource for a record
 func DataSource() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceRecordRead,
@@ -55,7 +56,7 @@ func dataSourceRecordRead(_ context.Context, d *schema.ResourceData, m interface
 	c := m.(*client.Client)
 
 	id, ok := d.GetOk("id")
-	if !ok{
+	if !ok {
 		return diag.Errorf("Please provide a id argument")
 	}
 	record, err := c.Record.GetById(id.(string))
