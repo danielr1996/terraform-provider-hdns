@@ -44,8 +44,6 @@ resource "hdns_record" "record" {
   type = "A"
   name = "record.example.com"
   value = "1.2.3.4"
-  ttl = 6400
-
 }
 ```
 
