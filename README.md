@@ -2,6 +2,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/danielr1996/terraform-provider-hdns.svg)](https://pkg.go.dev/github.com/danielr1996/terraform-provider-hdns)
 [![Go Report Card](https://goreportcard.com/badge/github.com/danielr1996/terraform-provider-hdns)](https://goreportcard.com/report/github.com/danielr1996/terraform-provider-hdns)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/danielr1996/hdns-go?style=flat)
+![GitHub](https://img.shields.io/github/license/danielr1996/terraform-provider-hdns)
 
 A terraform provider for the [Hetzner DNS API](https://dns.hetzner.com/api-docs/)
 
