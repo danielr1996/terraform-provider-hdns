@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/agext/levenshtein v1.2.3 // indirect
-	github.com/danielr1996/hdns-go v1.0.0
+	github.com/danielr1996/hdns-go v1.0.1
 	github.com/fatih/color v1.10.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-hclog v0.16.0 // indirect
