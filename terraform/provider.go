@@ -2,7 +2,6 @@ package terraform
 
 import (
 	"context"
-	"errors"
 	"github.com/danielr1996/hdns-go/client"
 	"github.com/danielr1996/terraform-provider-hdns/terraform/record"
 	"github.com/danielr1996/terraform-provider-hdns/terraform/zone"
@@ -35,7 +34,12 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	token := d.Get("token").(string)
 	var diags diag.Diagnostics
 	if token == "" {
-		return nil, diag.FromErr(errors.New("token must not be empty"))
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Unable to create HDNS client",
+			Detail:   "token must not be null",
+		})
+		return nil, diags
 	}
 	return client.New().WithToken(token), diags
 }
